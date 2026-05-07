@@ -76,10 +76,10 @@ export default function ExpensePage() {
   useEffect(() => {
     axios.post(`${API}/expenses/apply-recurring`, {}, { headers })
       .then((res) => { if (res.data.applied > 0) setRecurringNotice(`${res.data.applied} recurring expense(s) auto-added for this month.`); })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     fetchAll();
     const handleFocus = () => fetchAll();
     window.addEventListener("focus", handleFocus);

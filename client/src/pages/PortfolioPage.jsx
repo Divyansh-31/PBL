@@ -41,7 +41,7 @@ export default function PortfolioPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  
+
   const token = localStorage.getItem("token");
   const headers = { Authorization: `Bearer ${token}` };
 
@@ -102,17 +102,17 @@ export default function PortfolioPage() {
   useEffect(() => {
     fetchHoldings();
     if (activeTab === "analytics" || activeTab === "comparison" || activeTab === "suggestions" || activeTab === "risk engine" || activeTab === "smart insights") {
-       fetchSummary();
+      fetchSummary();
     }
     if (activeTab === "suggestions") {
-       fetchSuggestions();
+      fetchSuggestions();
     }
     if (activeTab === "risk engine") {
-       fetchRiskAnalysis();
+      fetchRiskAnalysis();
     }
     if (activeTab === "smart insights") {
-       fetchSectorAnalysis();
-       fetchCorrelationAudit();
+      fetchSectorAnalysis();
+      fetchCorrelationAudit();
     }
   }, [fetchHoldings, fetchSummary, fetchSuggestions, fetchRiskAnalysis, fetchSectorAnalysis, fetchCorrelationAudit, activeTab]);
 
@@ -188,15 +188,15 @@ export default function PortfolioPage() {
       {/* Summary Mini Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <SummaryCard label="Invested" value={formatINR(totalInvested)} color="blue" />
-        <SummaryCard 
-          label="Total P&L" 
-          value={totalPnL >= 0 ? `+${formatINR(totalPnL)}` : formatINR(totalPnL)} 
-          color={totalPnL >= 0 ? "emerald" : "red"} 
+        <SummaryCard
+          label="Total P&L"
+          value={totalPnL >= 0 ? `+${formatINR(totalPnL)}` : formatINR(totalPnL)}
+          color={totalPnL >= 0 ? "emerald" : "red"}
         />
-        <SummaryCard 
-          label="Return %" 
-          value={`${totalReturnPct.toFixed(2)}%`} 
-          color={totalReturnPct >= 0 ? "emerald" : "red"} 
+        <SummaryCard
+          label="Return %"
+          value={`${totalReturnPct.toFixed(2)}%`}
+          color={totalReturnPct >= 0 ? "emerald" : "red"}
         />
         {summary && <SummaryCard label="Portfolio β" value={summary.portfolioBeta?.toFixed(2) || "—"} color="violet" sub="Weighted beta" />}
       </div>
@@ -212,9 +212,8 @@ export default function PortfolioPage() {
           { key: "smart insights", label: "Insights" },
         ].map((tab) => (
           <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-            className={`px-3 py-2.5 text-sm font-medium transition-all border-b-2 -mb-px ${
-              activeTab === tab.key ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}>{tab.label}</button>
+            className={`px-3 py-2.5 text-sm font-medium transition-all border-b-2 -mb-px ${activeTab === tab.key ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}>{tab.label}</button>
         ))}
       </div>
 
@@ -228,54 +227,53 @@ export default function PortfolioPage() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-1">
                   <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Stock Symbol</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. RELIANCE.NS, AAPL" 
+                  <input
+                    type="text"
+                    placeholder="e.g. RELIANCE.NS, AAPL"
                     className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                     value={form.symbol}
-                    onChange={(e) => setForm({...form, symbol: e.target.value})}
+                    onChange={(e) => setForm({ ...form, symbol: e.target.value })}
                   />
                   <p className="text-[10px] text-muted-foreground mt-1 italic">Note: Use .NS for NSE stocks (e.g. TCS.NS)</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Quantity</label>
-                    <input 
+                    <input
                       type="number" step="any"
                       className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                       value={form.quantity}
-                      onChange={(e) => setForm({...form, quantity: e.target.value})}
+                      onChange={(e) => setForm({ ...form, quantity: e.target.value })}
                     />
                   </div>
                   <div className="space-y-1">
                     <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Price Bought At (₹)</label>
-                    <input 
+                    <input
                       type="number" step="any"
                       className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                       value={form.priceBoughtAt}
-                      onChange={(e) => setForm({...form, priceBoughtAt: e.target.value})}
+                      onChange={(e) => setForm({ ...form, priceBoughtAt: e.target.value })}
                     />
                   </div>
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Purchase Date</label>
-                  <input 
-                    type="date" 
+                  <input
+                    type="date"
                     className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                     value={form.purchaseDate}
-                    onChange={(e) => setForm({...form, purchaseDate: e.target.value})}
+                    onChange={(e) => setForm({ ...form, purchaseDate: e.target.value })}
                   />
                 </div>
-                
+
                 {error && <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
                 {success && <p className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">{success}</p>}
-                
-                <button 
-                  type="submit" 
+
+                <button
+                  type="submit"
                   disabled={loading}
-                  className={`w-full rounded-xl py-2.5 text-sm font-semibold transition-all ${
-                    loading ? "bg-secondary text-muted-foreground" : "bg-primary text-primary-foreground hover:opacity-90"
-                  }`}
+                  className={`w-full rounded-xl py-2.5 text-sm font-semibold transition-all ${loading ? "bg-secondary text-muted-foreground" : "bg-primary text-primary-foreground hover:opacity-90"
+                    }`}
                 >
                   {loading ? "Fetching Data..." : "+ Add Holding"}
                 </button>
@@ -309,7 +307,7 @@ export default function PortfolioPage() {
                       const invested = h.quantity * h.priceBoughtAt;
                       const pnl = curValue - invested;
                       const pnlPct = invested > 0 ? (pnl / invested) * 100 : 0;
-                      
+
                       return (
                         <tr key={h._id} className="hover:bg-secondary/20 transition-colors">
                           <td className="py-4 pr-3">
@@ -317,10 +315,10 @@ export default function PortfolioPage() {
                             <div className="text-[10px] text-muted-foreground truncate max-w-[120px]">{h.companyName}</div>
                           </td>
                           <td className="py-4 pr-3">
-                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tighter"
-                                style={{ backgroundColor: CAT_COLORS[h.category] + "20", color: CAT_COLORS[h.category] }}>
-                                {h.category}
-                              </span>
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tighter"
+                              style={{ backgroundColor: CAT_COLORS[h.category] + "20", color: CAT_COLORS[h.category] }}>
+                              {h.category}
+                            </span>
                           </td>
                           <td className="py-4 pr-3 text-right tabular-nums">{h.quantity}</td>
                           <td className="py-4 pr-3 text-right tabular-nums">{formatINR(h.priceBoughtAt)}</td>
@@ -333,7 +331,7 @@ export default function PortfolioPage() {
                           </td>
                           <td className="py-4 text-right">
                             <button onClick={() => handleDelete(h._id)} className="text-red-400 hover:text-red-600 p-1">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
                             </button>
                           </td>
                         </tr>
@@ -354,7 +352,7 @@ export default function PortfolioPage() {
             {/* Category Breakdown Donut */}
             <div className="auth-card">
               <h2 className="text-sm font-semibold mb-6 flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83" /><path d="M22 12A10 10 0 0 0 12 2v10z" /></svg>
                 Asset Allocation by Category
               </h2>
               <div className="h-[300px] w-full">
@@ -374,11 +372,11 @@ export default function PortfolioPage() {
                         <Cell key={entry.name} fill={CAT_COLORS[entry.name] || "#ccc"} />
                       ))}
                     </Pie>
-                    <Tooltip 
+                    <Tooltip
                       formatter={(v) => formatFullINR(v)}
                       contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                     />
-                    <Legend verticalAlign="bottom" height={36} wrapperStyle={{ paddingTop: '20px' }}/>
+                    <Legend verticalAlign="bottom" height={36} wrapperStyle={{ paddingTop: '20px' }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -387,7 +385,7 @@ export default function PortfolioPage() {
             {/* Per-Stock Performance Bar */}
             <div className="auth-card">
               <h2 className="text-sm font-semibold mb-6 flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="m19 9-5 5-4-4-3 3" /></svg>
                 Returns by Stock (%)
               </h2>
               <div className="h-[300px] w-full">
@@ -395,18 +393,18 @@ export default function PortfolioPage() {
                   <BarChart data={summary.stockReturns} layout="vertical" margin={{ left: 30, right: 30 }}>
                     <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} strokeOpacity={0.1} />
                     <XAxis type="number" hide />
-                    <YAxis 
-                      dataKey="symbol" 
-                      type="category" 
+                    <YAxis
+                      dataKey="symbol"
+                      type="category"
                       tick={{ fontSize: 10, fontWeight: 600 }}
                       width={70}
                     />
-                    <Tooltip 
+                    <Tooltip
                       formatter={(v) => [`${v}%`, 'Return']}
                       contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                     />
-                    <Bar 
-                      dataKey="returnPct" 
+                    <Bar
+                      dataKey="returnPct"
                       radius={[0, 4, 4, 0]}
                       barSize={20}
                       isAnimationActive={false}
@@ -437,12 +435,12 @@ export default function PortfolioPage() {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {summary.stockReturns.map((sr) => (
-                      <tr key={sr.symbol} className="hover:bg-secondary/20">
-                        <td className="py-2.5 font-bold">{sr.symbol}</td>
-                        <td className={`py-2.5 ${sr.returnPct >= 0 ? "text-emerald-600" : "text-red-500"}`}>{sr.returnPct}%</td>
-                        <td className="py-2.5">{formatINR(sr.pnl)}</td>
-                      </tr>
-                    ))}
+                    <tr key={sr.symbol} className="hover:bg-secondary/20">
+                      <td className="py-2.5 font-bold">{sr.symbol}</td>
+                      <td className={`py-2.5 ${sr.returnPct >= 0 ? "text-emerald-600" : "text-red-500"}`}>{sr.returnPct}%</td>
+                      <td className="py-2.5">{formatINR(sr.pnl)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -463,8 +461,8 @@ export default function PortfolioPage() {
                       <span className="text-muted-foreground font-mono">{formatFullINR(cat.total)} ({pct}%)</span>
                     </div>
                     <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
-                      <div 
-                        className="h-full transition-all duration-1000" 
+                      <div
+                        className="h-full transition-all duration-1000"
                         style={{ width: `${pct}%`, backgroundColor: CAT_COLORS[cat.name] }}
                       ></div>
                     </div>
@@ -479,206 +477,205 @@ export default function PortfolioPage() {
       {/* Tab: Suggestions / Advice */}
       {activeTab === "suggestions" && suggestions && (
         <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-500">
-           <div className="flex items-center justify-between bg-primary/5 border border-primary/20 rounded-2xl p-6">
-              <div className="flex items-center gap-4">
-                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-2xl">&#128161;</div>
-                 <div>
-                    <h2 className="text-lg font-bold flex items-center gap-2">
-                       Investor Profile: 
-                       <span className={`px-3 py-1 rounded-lg text-sm ${
-                          suggestions.investorType === "Aggressive" ? "bg-red-100 text-red-700" :
-                          suggestions.investorType === "Moderate" ? "bg-blue-100 text-blue-700" : "bg-emerald-100 text-emerald-700"
-                       }`}>
-                          {suggestions.investorType}
-                       </span>
-                    </h2>
-                    <p className="text-sm text-muted-foreground">Portfolio Value: <strong>{formatFullINR(suggestions.totalPortfolioValue)}</strong></p>
-                 </div>
+          <div className="flex items-center justify-between bg-primary/5 border border-primary/20 rounded-2xl p-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-2xl">&#128161;</div>
+              <div>
+                <h2 className="text-lg font-bold flex items-center gap-2">
+                  Investor Profile:
+                  <span className={`px-3 py-1 rounded-lg text-sm ${suggestions.investorType === "Aggressive" ? "bg-red-100 text-red-700" :
+                      suggestions.investorType === "Moderate" ? "bg-blue-100 text-blue-700" : "bg-emerald-100 text-emerald-700"
+                    }`}>
+                    {suggestions.investorType}
+                  </span>
+                </h2>
+                <p className="text-sm text-muted-foreground">Portfolio Value: <strong>{formatFullINR(suggestions.totalPortfolioValue)}</strong></p>
               </div>
-           </div>
+            </div>
+          </div>
 
-           {/* Allocation Table with Amounts */}
-           <div className="auth-card">
-              <h3 className="text-sm font-semibold mb-6">Allocation Analysis</h3>
-              <div className="overflow-x-auto">
-                 <table className="w-full text-sm">
-                    <thead>
-                       <tr className="border-b border-border text-left text-xs text-muted-foreground uppercase tracking-wide">
-                          <th className="pb-3 pr-4">Asset Class</th>
-                          <th className="pb-3 pr-4 text-right">Current</th>
-                          <th className="pb-3 pr-4 text-right">Target</th>
-                          <th className="pb-3 pr-4 text-right">Delta</th>
-                          <th className="pb-3 pr-4 text-right">Move Amount</th>
-                          <th className="pb-3 text-right">Status</th>
-                       </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border">
-                       {suggestions.analysis.map((item) => {
-                          const statusColor = item.status === "Overweight" ? "text-red-500" : (item.status === "Underweight" ? "text-amber-500" : "text-emerald-500");
-                          return (
-                             <tr key={item.category} className="hover:bg-secondary/20 transition-colors">
-                                <td className="py-4 pr-4 font-semibold">{item.category}</td>
-                                <td className="py-4 pr-4 text-right tabular-nums">
-                                   <div>{item.currentPct}%</div>
-                                   <div className="text-[10px] text-muted-foreground">{formatINR(item.currentVal)}</div>
-                                </td>
-                                <td className="py-4 pr-4 text-right tabular-nums text-muted-foreground">
-                                   <div>{item.targetPct}%</div>
-                                   <div className="text-[10px]">{formatINR(item.targetVal)}</div>
-                                </td>
-                                <td className={`py-4 pr-4 text-right tabular-nums font-medium ${item.delta > 0 ? "text-red-400" : (item.delta < 0 ? "text-amber-400" : "")}`}>
-                                   {item.delta > 0 ? "+" : ""}{item.delta}%
-                                </td>
-                                <td className={`py-4 pr-4 text-right tabular-nums font-semibold ${item.deltaAmount > 0 ? "text-red-500" : (item.deltaAmount < 0 ? "text-amber-500" : "text-emerald-500")}`}>
-                                   {item.deltaAmount !== 0 ? (item.deltaAmount > 0 ? `Sell ${formatINR(Math.abs(item.deltaAmount))}` : `Buy ${formatINR(Math.abs(item.deltaAmount))}`) : "—"}
-                                </td>
-                                <td className={`py-4 text-right text-xs font-bold uppercase tracking-tight ${statusColor}`}>
-                                   {item.status}
-                                </td>
-                             </tr>
-                          );
-                       })}
-                    </tbody>
-                 </table>
+          {/* Allocation Table with Amounts */}
+          <div className="auth-card">
+            <h3 className="text-sm font-semibold mb-6">Allocation Analysis</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-xs text-muted-foreground uppercase tracking-wide">
+                    <th className="pb-3 pr-4">Asset Class</th>
+                    <th className="pb-3 pr-4 text-right">Current</th>
+                    <th className="pb-3 pr-4 text-right">Target</th>
+                    <th className="pb-3 pr-4 text-right">Delta</th>
+                    <th className="pb-3 pr-4 text-right">Move Amount</th>
+                    <th className="pb-3 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {suggestions.analysis.map((item) => {
+                    const statusColor = item.status === "Overweight" ? "text-red-500" : (item.status === "Underweight" ? "text-amber-500" : "text-emerald-500");
+                    return (
+                      <tr key={item.category} className="hover:bg-secondary/20 transition-colors">
+                        <td className="py-4 pr-4 font-semibold">{item.category}</td>
+                        <td className="py-4 pr-4 text-right tabular-nums">
+                          <div>{item.currentPct}%</div>
+                          <div className="text-[10px] text-muted-foreground">{formatINR(item.currentVal)}</div>
+                        </td>
+                        <td className="py-4 pr-4 text-right tabular-nums text-muted-foreground">
+                          <div>{item.targetPct}%</div>
+                          <div className="text-[10px]">{formatINR(item.targetVal)}</div>
+                        </td>
+                        <td className={`py-4 pr-4 text-right tabular-nums font-medium ${item.delta > 0 ? "text-red-400" : (item.delta < 0 ? "text-amber-400" : "")}`}>
+                          {item.delta > 0 ? "+" : ""}{item.delta}%
+                        </td>
+                        <td className={`py-4 pr-4 text-right tabular-nums font-semibold ${item.deltaAmount > 0 ? "text-red-500" : (item.deltaAmount < 0 ? "text-amber-500" : "text-emerald-500")}`}>
+                          {item.deltaAmount !== 0 ? (item.deltaAmount > 0 ? `Sell ${formatINR(Math.abs(item.deltaAmount))}` : `Buy ${formatINR(Math.abs(item.deltaAmount))}`) : "—"}
+                        </td>
+                        <td className={`py-4 text-right text-xs font-bold uppercase tracking-tight ${statusColor}`}>
+                          {item.status}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Rebalance Summary Flow */}
+          {suggestions.summary && suggestions.rebalancePlan?.length > 0 && (
+            <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5">
+              <p className="text-xs font-bold text-primary uppercase tracking-wide mb-2">Rebalance Flow</p>
+              <p className="text-sm font-semibold text-foreground">{suggestions.summary}</p>
+            </div>
+          )}
+
+          {/* Sell Actions — with per-stock recommendations */}
+          {suggestions.sellActions?.length > 0 && (
+            <div className="auth-card">
+              <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /></svg>
+                Sell Recommendations (Lock in Gains)
+              </h3>
+              <div className="space-y-4">
+                {suggestions.sellActions.map((sa) => (
+                  <div key={sa.category} className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-red-700">{sa.category} <span className="text-xs font-normal text-red-400">(+{sa.excessPct}% overweight)</span></span>
+                      <span className="text-sm font-bold text-red-600">Total: {formatINR(sa.totalSellAmount)}</span>
+                    </div>
+                    {sa.stocks.map((stock) => (
+                      <div key={stock.symbol} className="flex flex-col md:flex-row md:items-center justify-between bg-red-50 rounded-xl px-4 py-3 border border-red-200 gap-2">
+                        <div className="flex items-center gap-3">
+                          <div className="w-7 h-7 rounded-lg bg-red-100 flex items-center justify-center text-red-600 font-bold text-xs">&#8722;</div>
+                          <div>
+                            <p className="font-bold text-red-800 text-sm">{stock.symbol} <span className="text-xs font-normal text-red-400">{stock.companyName}</span></p>
+                            <p className="text-[11px] text-red-500">{stock.reason}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-red-700">Sell {stock.sellQuantity} shares</p>
+                          <p className="text-xs text-red-500">&#8776; {formatINR(stock.sellAmount)} | Return: <span className={stock.currentReturn >= 0 ? "text-emerald-600" : "text-red-600"}>{stock.currentReturn >= 0 ? "+" : ""}{stock.currentReturn}%</span></p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
-           </div>
+            </div>
+          )}
 
-           {/* Rebalance Summary Flow */}
-           {suggestions.summary && suggestions.rebalancePlan?.length > 0 && (
-             <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5">
-               <p className="text-xs font-bold text-primary uppercase tracking-wide mb-2">Rebalance Flow</p>
-               <p className="text-sm font-semibold text-foreground">{suggestions.summary}</p>
-             </div>
-           )}
+          {/* Buy Actions */}
+          {suggestions.buyActions?.length > 0 && (
+            <div className="auth-card">
+              <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></svg>
+                Buy Recommendations (Fill Gaps)
+              </h3>
+              <div className="space-y-3">
+                {suggestions.buyActions.map((ba) => (
+                  <div key={ba.category} className="flex flex-col md:flex-row md:items-center justify-between bg-emerald-50 rounded-xl px-5 py-4 border border-emerald-200 gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-xs">+</div>
+                      <div>
+                        <p className="font-bold text-emerald-800">{ba.category}</p>
+                        <p className="text-[11px] text-emerald-600">{ba.suggestion}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-bold text-emerald-700">{formatINR(ba.totalBuyAmount)}</p>
+                      <p className="text-xs text-emerald-500">Deficit: {ba.deficitPct.toFixed(1)}%</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-           {/* Sell Actions — with per-stock recommendations */}
-           {suggestions.sellActions?.length > 0 && (
-             <div className="auth-card">
-               <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
-                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/></svg>
-                 Sell Recommendations (Lock in Gains)
-               </h3>
-               <div className="space-y-4">
-                 {suggestions.sellActions.map((sa) => (
-                   <div key={sa.category} className="space-y-3">
-                     <div className="flex justify-between items-center">
-                       <span className="font-bold text-red-700">{sa.category} <span className="text-xs font-normal text-red-400">(+{sa.excessPct}% overweight)</span></span>
-                       <span className="text-sm font-bold text-red-600">Total: {formatINR(sa.totalSellAmount)}</span>
-                     </div>
-                     {sa.stocks.map((stock) => (
-                       <div key={stock.symbol} className="flex flex-col md:flex-row md:items-center justify-between bg-red-50 rounded-xl px-4 py-3 border border-red-200 gap-2">
-                         <div className="flex items-center gap-3">
-                           <div className="w-7 h-7 rounded-lg bg-red-100 flex items-center justify-center text-red-600 font-bold text-xs">&#8722;</div>
-                           <div>
-                             <p className="font-bold text-red-800 text-sm">{stock.symbol} <span className="text-xs font-normal text-red-400">{stock.companyName}</span></p>
-                             <p className="text-[11px] text-red-500">{stock.reason}</p>
-                           </div>
-                         </div>
-                         <div className="text-right">
-                           <p className="font-bold text-red-700">Sell {stock.sellQuantity} shares</p>
-                           <p className="text-xs text-red-500">&#8776; {formatINR(stock.sellAmount)} | Return: <span className={stock.currentReturn >= 0 ? "text-emerald-600" : "text-red-600"}>{stock.currentReturn >= 0 ? "+" : ""}{stock.currentReturn}%</span></p>
-                         </div>
-                       </div>
-                     ))}
-                   </div>
-                 ))}
-               </div>
-             </div>
-           )}
-
-           {/* Buy Actions */}
-           {suggestions.buyActions?.length > 0 && (
-             <div className="auth-card">
-               <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
-                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
-                 Buy Recommendations (Fill Gaps)
-               </h3>
-               <div className="space-y-3">
-                 {suggestions.buyActions.map((ba) => (
-                   <div key={ba.category} className="flex flex-col md:flex-row md:items-center justify-between bg-emerald-50 rounded-xl px-5 py-4 border border-emerald-200 gap-3">
-                     <div className="flex items-center gap-3">
-                       <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-xs">+</div>
-                       <div>
-                         <p className="font-bold text-emerald-800">{ba.category}</p>
-                         <p className="text-[11px] text-emerald-600">{ba.suggestion}</p>
-                       </div>
-                     </div>
-                     <div className="text-right">
-                       <p className="text-lg font-bold text-emerald-700">{formatINR(ba.totalBuyAmount)}</p>
-                       <p className="text-xs text-emerald-500">Deficit: {ba.deficitPct.toFixed(1)}%</p>
-                     </div>
-                   </div>
-                 ))}
-               </div>
-             </div>
-           )}
-
-           {/* All balanced */}
-           {suggestions.analysis.every(item => item.status === "On Track") && (
-             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center">
-               <div className="text-4xl mb-3">&#9989;</div>
-               <h3 className="text-lg font-bold text-emerald-800">Portfolio is Perfectly Balanced</h3>
-               <p className="text-sm text-emerald-600 mt-1">All allocations are within target range for your <strong>{suggestions.investorType}</strong> profile. No rebalancing needed!</p>
-             </div>
-           )}
+          {/* All balanced */}
+          {suggestions.analysis.every(item => item.status === "On Track") && (
+            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center">
+              <div className="text-4xl mb-3">&#9989;</div>
+              <h3 className="text-lg font-bold text-emerald-800">Portfolio is Perfectly Balanced</h3>
+              <p className="text-sm text-emerald-600 mt-1">All allocations are within target range for your <strong>{suggestions.investorType}</strong> profile. No rebalancing needed!</p>
+            </div>
+          )}
         </div>
       )}
 
       {/* Tab: Comparison */}
       {activeTab === "comparison" && summary && (
         <div className="space-y-8 animate-in zoom-in-95 duration-300">
-           <div className="auth-card">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                 <div>
-                    <h2 className="text-lg font-bold">Stock vs. Portfolio</h2>
-                    <p className="text-sm text-muted-foreground">Detailed metric comparison for a specific holding.</p>
-                 </div>
-                 <div className="min-w-[200px]">
-                    <label className="text-[10px] uppercase font-bold text-muted-foreground mb-1 block">Select Asset</label>
-                    <select 
-                       className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                       value={selectedStockSymbol}
-                       onChange={(e) => setSelectedStockSymbol(e.target.value)}
-                    >
-                       {summary.stockReturns.map(s => <option key={s.symbol} value={s.symbol}>{s.symbol}</option>)}
-                    </select>
-                 </div>
+          <div className="auth-card">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+              <div>
+                <h2 className="text-lg font-bold">Stock vs. Portfolio</h2>
+                <p className="text-sm text-muted-foreground">Detailed metric comparison for a specific holding.</p>
               </div>
-
-              {summary.stockReturns.find(s => s.symbol === selectedStockSymbol) ? (
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <ComparisonMetric 
-                       label="Total Return %" 
-                       stockValue={`${summary.stockReturns.find(s => s.symbol === selectedStockSymbol).returnPct}%`}
-                       portfolioValue={`${summary.totalReturnPct}%`}
-                       isHigherBetter={true}
-                    />
-
-                    <ComparisonMetric 
-                       label="Asset Weight %" 
-                       stockValue={`${((summary.stockReturns.find(s => s.symbol === selectedStockSymbol).value / summary.currentValue) * 100).toFixed(2)}%`}
-                       portfolioValue="Average"
-                       subText="Contribution to total value."
-                    />
-                 </div>
-              ) : (
-                 <p className="text-center py-10 text-muted-foreground italic">Select a stock to see comparison data.</p>
-              )}
-           </div>
-
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="auth-card">
-                 <h3 className="text-sm font-semibold mb-4">Performance Insight</h3>
-                 <p className="text-sm text-muted-foreground leading-relaxed">
-                    {(() => {
-                       const stock = summary.stockReturns.find(s => s.symbol === selectedStockSymbol);
-                       if (!stock) return "";
-                       const isOutperforming = stock.returnPct > summary.totalReturnPct;
-                       return `The holding ${stock.symbol} is currently ${isOutperforming ? "outperforming" : "underperforming"} your overall portfolio return by ${Math.abs(stock.returnPct - summary.totalReturnPct).toFixed(2)}%.`;
-                    })()}
-                 </p>
+              <div className="min-w-[200px]">
+                <label className="text-[10px] uppercase font-bold text-muted-foreground mb-1 block">Select Asset</label>
+                <select
+                  className="w-full rounded-lg border border-border px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                  value={selectedStockSymbol}
+                  onChange={(e) => setSelectedStockSymbol(e.target.value)}
+                >
+                  {summary.stockReturns.map(s => <option key={s.symbol} value={s.symbol}>{s.symbol}</option>)}
+                </select>
               </div>
-           </div>
+            </div>
+
+            {summary.stockReturns.find(s => s.symbol === selectedStockSymbol) ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <ComparisonMetric
+                  label="Total Return %"
+                  stockValue={`${summary.stockReturns.find(s => s.symbol === selectedStockSymbol).returnPct}%`}
+                  portfolioValue={`${summary.totalReturnPct}%`}
+                  isHigherBetter={true}
+                />
+
+                <ComparisonMetric
+                  label="Asset Weight %"
+                  stockValue={`${((summary.stockReturns.find(s => s.symbol === selectedStockSymbol).value / summary.currentValue) * 100).toFixed(2)}%`}
+                  portfolioValue="Average"
+                  subText="Contribution to total value."
+                />
+              </div>
+            ) : (
+              <p className="text-center py-10 text-muted-foreground italic">Select a stock to see comparison data.</p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="auth-card">
+              <h3 className="text-sm font-semibold mb-4">Performance Insight</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {(() => {
+                  const stock = summary.stockReturns.find(s => s.symbol === selectedStockSymbol);
+                  if (!stock) return "";
+                  const isOutperforming = stock.returnPct > summary.totalReturnPct;
+                  return `The holding ${stock.symbol} is currently ${isOutperforming ? "outperforming" : "underperforming"} your overall portfolio return by ${Math.abs(stock.returnPct - summary.totalReturnPct).toFixed(2)}%.`;
+                })()}
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
@@ -687,15 +684,13 @@ export default function PortfolioPage() {
         <div className="space-y-8 animate-in fade-in duration-500">
           {/* Risk Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className={`rounded-2xl border p-5 transition-all hover:shadow-md ${
-              riskAnalysis.portfolioWeightedBeta <= 0.8 ? "bg-emerald-50 border-emerald-200" :
-              riskAnalysis.portfolioWeightedBeta <= 1.2 ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200"
-            }`}>
+            <div className={`rounded-2xl border p-5 transition-all hover:shadow-md ${riskAnalysis.portfolioWeightedBeta <= 0.8 ? "bg-emerald-50 border-emerald-200" :
+                riskAnalysis.portfolioWeightedBeta <= 1.2 ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200"
+              }`}>
               <p className="text-xs font-semibold uppercase tracking-widest opacity-70 mb-1">Portfolio Beta (β)</p>
-              <p className={`text-3xl font-bold ${
-                riskAnalysis.portfolioWeightedBeta <= 0.8 ? "text-emerald-700" :
-                riskAnalysis.portfolioWeightedBeta <= 1.2 ? "text-amber-700" : "text-red-700"
-              }`}>{riskAnalysis.portfolioWeightedBeta}</p>
+              <p className={`text-3xl font-bold ${riskAnalysis.portfolioWeightedBeta <= 0.8 ? "text-emerald-700" :
+                  riskAnalysis.portfolioWeightedBeta <= 1.2 ? "text-amber-700" : "text-red-700"
+                }`}>{riskAnalysis.portfolioWeightedBeta}</p>
               <p className="text-[10px] mt-1 opacity-60 font-medium">Target: {riskAnalysis.targetBetaRange.min} – {riskAnalysis.targetBetaRange.max}</p>
             </div>
             <div className="rounded-2xl border p-5 bg-blue-50 border-blue-200 transition-all hover:shadow-md">
@@ -703,15 +698,13 @@ export default function PortfolioPage() {
               <p className="text-3xl font-bold text-blue-700">{riskAnalysis.portfolioVolatility}%</p>
               <p className="text-[10px] mt-1 opacity-60 font-medium text-blue-600">Annualized weighted average</p>
             </div>
-            <div className={`rounded-2xl border p-5 transition-all hover:shadow-md ${
-              riskAnalysis.riskRating === "Low" ? "bg-emerald-50 border-emerald-200" :
-              riskAnalysis.riskRating === "Moderate" ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200"
-            }`}>
+            <div className={`rounded-2xl border p-5 transition-all hover:shadow-md ${riskAnalysis.riskRating === "Low" ? "bg-emerald-50 border-emerald-200" :
+                riskAnalysis.riskRating === "Moderate" ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200"
+              }`}>
               <p className="text-xs font-semibold uppercase tracking-widest opacity-70 mb-1">Risk Rating</p>
-              <p className={`text-3xl font-bold ${
-                riskAnalysis.riskRating === "Low" ? "text-emerald-700" :
-                riskAnalysis.riskRating === "Moderate" ? "text-amber-700" : "text-red-700"
-              }`}>{riskAnalysis.riskRating}</p>
+              <p className={`text-3xl font-bold ${riskAnalysis.riskRating === "Low" ? "text-emerald-700" :
+                  riskAnalysis.riskRating === "Moderate" ? "text-amber-700" : "text-red-700"
+                }`}>{riskAnalysis.riskRating}</p>
               <p className="text-[10px] mt-1 opacity-60 font-medium">Profile: {riskAnalysis.investorType}</p>
             </div>
           </div>
@@ -748,7 +741,7 @@ export default function PortfolioPage() {
           {/* All Holdings Risk Table */}
           <div className="auth-card">
             <h2 className="text-sm font-semibold mb-4 flex items-center gap-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
               Holdings Risk Analysis
             </h2>
             <div className="overflow-x-auto">
@@ -770,9 +763,8 @@ export default function PortfolioPage() {
                         <div className="font-bold">{h.symbol}</div>
                         <div className="text-[10px] text-muted-foreground truncate max-w-[140px]">{h.companyName}</div>
                       </td>
-                      <td className={`py-3 pr-3 text-right tabular-nums font-semibold ${
-                        h.beta <= 0.8 ? "text-emerald-600" : h.beta <= 1.2 ? "text-amber-600" : "text-red-600"
-                      }`}>{h.beta}</td>
+                      <td className={`py-3 pr-3 text-right tabular-nums font-semibold ${h.beta <= 0.8 ? "text-emerald-600" : h.beta <= 1.2 ? "text-amber-600" : "text-red-600"
+                        }`}>{h.beta}</td>
                       <td className="py-3 pr-3 text-right tabular-nums">{h.volatility}%</td>
                       <td className="py-3 pr-3 text-right tabular-nums">{h.weight}%</td>
                       <td className="py-3 pr-3 text-right tabular-nums">{formatINR(h.value)}</td>
@@ -794,7 +786,7 @@ export default function PortfolioPage() {
           {riskAnalysis.rebalanceSuggestions.length > 0 && (
             <div className="auth-card">
               <h2 className="text-sm font-semibold mb-6 flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></svg>
                 Rebalancing Recommendations
               </h2>
 
@@ -843,18 +835,16 @@ export default function PortfolioPage() {
                 <div className="grid grid-cols-2 gap-6">
                   <div className="text-center">
                     <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-1">Current Beta</p>
-                    <p className={`text-2xl font-bold ${
-                      riskAnalysis.portfolioWeightedBeta > riskAnalysis.targetBetaRange.max ? "text-red-600" : "text-emerald-600"
-                    }`}>{riskAnalysis.portfolioWeightedBeta}</p>
+                    <p className={`text-2xl font-bold ${riskAnalysis.portfolioWeightedBeta > riskAnalysis.targetBetaRange.max ? "text-red-600" : "text-emerald-600"
+                      }`}>{riskAnalysis.portfolioWeightedBeta}</p>
                     <div className="mt-2 w-full h-2 bg-secondary rounded-full overflow-hidden">
                       <div className="h-full bg-red-400 rounded-full transition-all duration-1000" style={{ width: `${Math.min(100, (riskAnalysis.portfolioWeightedBeta / 2) * 100)}%` }}></div>
                     </div>
                   </div>
                   <div className="text-center">
                     <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-1">After Rebalance</p>
-                    <p className={`text-2xl font-bold ${
-                      riskAnalysis.projectedBetaAfterRebalance <= riskAnalysis.targetBetaRange.max ? "text-emerald-600" : "text-amber-600"
-                    }`}>{riskAnalysis.projectedBetaAfterRebalance}</p>
+                    <p className={`text-2xl font-bold ${riskAnalysis.projectedBetaAfterRebalance <= riskAnalysis.targetBetaRange.max ? "text-emerald-600" : "text-amber-600"
+                      }`}>{riskAnalysis.projectedBetaAfterRebalance}</p>
                     <div className="mt-2 w-full h-2 bg-secondary rounded-full overflow-hidden">
                       <div className="h-full bg-emerald-400 rounded-full transition-all duration-1000" style={{ width: `${Math.min(100, (riskAnalysis.projectedBetaAfterRebalance / 2) * 100)}%` }}></div>
                     </div>
@@ -883,18 +873,16 @@ export default function PortfolioPage() {
         <div className="space-y-8 animate-in fade-in duration-500">
           {/* Diversification Score + Top Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className={`rounded-2xl border p-5 transition-all hover:shadow-md ${
-              sectorAnalysis.diversificationScore >= 70 ? "bg-emerald-50 border-emerald-200" :
-              sectorAnalysis.diversificationScore >= 40 ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200"
-            }`}>
+            <div className={`rounded-2xl border p-5 transition-all hover:shadow-md ${sectorAnalysis.diversificationScore >= 70 ? "bg-emerald-50 border-emerald-200" :
+                sectorAnalysis.diversificationScore >= 40 ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200"
+              }`}>
               <p className="text-xs font-semibold uppercase tracking-widest opacity-70 mb-1">Diversification Score</p>
-              <p className={`text-3xl font-bold ${
-                sectorAnalysis.diversificationScore >= 70 ? "text-emerald-700" :
-                sectorAnalysis.diversificationScore >= 40 ? "text-amber-700" : "text-red-700"
-              }`}>{sectorAnalysis.diversificationScore}/100</p>
+              <p className={`text-3xl font-bold ${sectorAnalysis.diversificationScore >= 70 ? "text-emerald-700" :
+                  sectorAnalysis.diversificationScore >= 40 ? "text-amber-700" : "text-red-700"
+                }`}>{sectorAnalysis.diversificationScore}/100</p>
               <p className="text-[10px] mt-1 opacity-60 font-medium">
                 {sectorAnalysis.diversificationScore >= 70 ? "Well diversified" :
-                 sectorAnalysis.diversificationScore >= 40 ? "Moderately diversified" : "Poorly diversified"}
+                  sectorAnalysis.diversificationScore >= 40 ? "Moderately diversified" : "Poorly diversified"}
               </p>
             </div>
             <div className="rounded-2xl border p-5 bg-blue-50 border-blue-200 transition-all hover:shadow-md">
@@ -902,13 +890,11 @@ export default function PortfolioPage() {
               <p className="text-3xl font-bold text-blue-700">{sectorAnalysis.sectorBreakdown.length}</p>
               <p className="text-[10px] mt-1 opacity-60 font-medium text-blue-600">out of 11 major sectors</p>
             </div>
-            <div className={`rounded-2xl border p-5 transition-all hover:shadow-md ${
-              sectorAnalysis.concentrationWarnings.length === 0 ? "bg-emerald-50 border-emerald-200" : "bg-red-50 border-red-200"
-            }`}>
+            <div className={`rounded-2xl border p-5 transition-all hover:shadow-md ${sectorAnalysis.concentrationWarnings.length === 0 ? "bg-emerald-50 border-emerald-200" : "bg-red-50 border-red-200"
+              }`}>
               <p className="text-xs font-semibold uppercase tracking-widest opacity-70 mb-1">Concentration Alerts</p>
-              <p className={`text-3xl font-bold ${
-                sectorAnalysis.concentrationWarnings.length === 0 ? "text-emerald-700" : "text-red-700"
-              }`}>{sectorAnalysis.concentrationWarnings.length}</p>
+              <p className={`text-3xl font-bold ${sectorAnalysis.concentrationWarnings.length === 0 ? "text-emerald-700" : "text-red-700"
+                }`}>{sectorAnalysis.concentrationWarnings.length}</p>
               <p className="text-[10px] mt-1 opacity-60 font-medium">{sectorAnalysis.concentrationWarnings.length === 0 ? "No sector > 30%" : "Sectors exceeding 30%"}</p>
             </div>
           </div>
@@ -928,9 +914,8 @@ export default function PortfolioPage() {
                   <div key={w.sector} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-amber-200">
                     <div>
                       <span className="font-bold text-amber-800">{w.sector}</span>
-                      <span className={`ml-2 text-xs font-bold px-2 py-0.5 rounded-full ${
-                        w.severity === "Critical" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"
-                      }`}>{w.severity}</span>
+                      <span className={`ml-2 text-xs font-bold px-2 py-0.5 rounded-full ${w.severity === "Critical" ? "bg-red-100 text-red-700" : "bg-amber-100 text-amber-700"
+                        }`}>{w.severity}</span>
                     </div>
                     <span className="text-lg font-bold text-amber-700">{w.percentage}%</span>
                   </div>
@@ -942,7 +927,7 @@ export default function PortfolioPage() {
           {/* Top 3 Sector Exposure */}
           <div className="auth-card">
             <h2 className="text-sm font-semibold mb-6 flex items-center gap-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83" /><path d="M22 12A10 10 0 0 0 12 2v10z" /></svg>
               Sector Exposure Breakdown
             </h2>
             <div className="space-y-4">
@@ -978,38 +963,6 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          {/* Diversification Suggestion */}
-          {sectorAnalysis.diversificationSuggestion && (
-            <div className="auth-card">
-              <h2 className="text-sm font-semibold mb-6 flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
-                Actionable Insight
-              </h2>
-              <div className="space-y-4">
-                {/* Shift suggestion */}
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 bg-red-50 rounded-xl p-5 border border-red-200">
-                    <p className="text-xs font-bold text-red-600 uppercase tracking-wide mb-2">Reduce</p>
-                    <p className="text-lg font-bold text-red-800">{sectorAnalysis.diversificationSuggestion.fromSector}</p>
-                    <p className="text-sm text-red-600 mt-1">Shift ~{sectorAnalysis.diversificationSuggestion.shiftPercentage}% ({formatINR(sectorAnalysis.diversificationSuggestion.shiftAmount)})</p>
-                  </div>
-                  <div className="flex items-center justify-center text-2xl text-muted-foreground">&#8594;</div>
-                  <div className="flex-1 bg-emerald-50 rounded-xl p-5 border border-emerald-200">
-                    <p className="text-xs font-bold text-emerald-600 uppercase tracking-wide mb-2">Add Exposure</p>
-                    <p className="text-lg font-bold text-emerald-800">{sectorAnalysis.diversificationSuggestion.toSector}</p>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {sectorAnalysis.diversificationSuggestion.exampleStocks.map(s => (
-                        <span key={s} className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-semibold">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-secondary/30 rounded-xl p-4 border border-border">
-                  <p className="text-sm text-muted-foreground">{sectorAnalysis.diversificationSuggestion.reason}</p>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Missing Sectors */}
           {sectorAnalysis.missingSectors.length > 0 && (
@@ -1038,7 +991,7 @@ export default function PortfolioPage() {
             <div className="space-y-6">
               <div className="auth-card">
                 <h2 className="text-sm font-semibold mb-2 flex items-center gap-2">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
                   Correlation Audit — Industry Clusters
                 </h2>
                 <p className="text-xs text-muted-foreground mb-6">Stocks in the same sub-industry are highly correlated. Multiple positions amplify risk without adding diversification.</p>
@@ -1132,11 +1085,11 @@ export default function PortfolioPage() {
       {/* Tab Skeletons for Other Phases */}
       {((activeTab === "analytics" && !summary) || (activeTab === "comparison" && !summary) || (activeTab === "suggestions" && !suggestions) || (activeTab === "risk engine" && !riskAnalysis) || (activeTab === "smart insights" && !sectorAnalysis)) && (
         <div className="auth-card p-12 text-center">
-           <h2 className="text-xl font-bold mb-2 capitalize">{activeTab} Loading</h2>
-           <p className="text-muted-foreground">Fetching live data and calculating portfolio metrics...</p>
-           <div className="mt-8 flex justify-center gap-4">
-              <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
-           </div>
+          <h2 className="text-xl font-bold mb-2 capitalize">{activeTab} Loading</h2>
+          <p className="text-muted-foreground">Fetching live data and calculating portfolio metrics...</p>
+          <div className="mt-8 flex justify-center gap-4">
+            <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+          </div>
         </div>
       )}
     </div>
@@ -1160,33 +1113,33 @@ function SummaryCard({ label, value, color, sub }) {
 }
 
 function ComparisonMetric({ label, stockValue, portfolioValue, isHigherBetter, subText }) {
-   const stockNum = parseFloat(stockValue);
-   const portNum = parseFloat(portfolioValue);
-   const isDiff = !isNaN(stockNum) && !isNaN(portNum);
-   
-   let colorClass = "text-foreground";
-   if (isDiff && isHigherBetter !== undefined) {
-      if (isHigherBetter) {
-         colorClass = stockNum >= portNum ? "text-emerald-600" : "text-red-500";
-      } else {
-         colorClass = stockNum <= portNum ? "text-emerald-600" : "text-red-500";
-      }
-   }
+  const stockNum = parseFloat(stockValue);
+  const portNum = parseFloat(portfolioValue);
+  const isDiff = !isNaN(stockNum) && !isNaN(portNum);
 
-   return (
-      <div className="bg-secondary/20 rounded-2xl p-6 border border-border/50">
-         <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-4">{label}</p>
-         <div className="space-y-4">
-            <div>
-               <p className={`text-2xl font-bold ${colorClass}`}>{stockValue}</p>
-               <p className="text-[10px] text-muted-foreground uppercase font-medium">Selected Asset</p>
-            </div>
-            <div className="pt-4 border-t border-border/50">
-               <p className="text-lg font-bold text-muted-foreground">{portfolioValue}</p>
-               <p className="text-[10px] text-muted-foreground uppercase font-medium">Portfolio Avg</p>
-            </div>
-            {subText && <p className="text-[10px] italic text-muted-foreground/60">{subText}</p>}
-         </div>
+  let colorClass = "text-foreground";
+  if (isDiff && isHigherBetter !== undefined) {
+    if (isHigherBetter) {
+      colorClass = stockNum >= portNum ? "text-emerald-600" : "text-red-500";
+    } else {
+      colorClass = stockNum <= portNum ? "text-emerald-600" : "text-red-500";
+    }
+  }
+
+  return (
+    <div className="bg-secondary/20 rounded-2xl p-6 border border-border/50">
+      <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-4">{label}</p>
+      <div className="space-y-4">
+        <div>
+          <p className={`text-2xl font-bold ${colorClass}`}>{stockValue}</p>
+          <p className="text-[10px] text-muted-foreground uppercase font-medium">Selected Asset</p>
+        </div>
+        <div className="pt-4 border-t border-border/50">
+          <p className="text-lg font-bold text-muted-foreground">{portfolioValue}</p>
+          <p className="text-[10px] text-muted-foreground uppercase font-medium">Portfolio Avg</p>
+        </div>
+        {subText && <p className="text-[10px] italic text-muted-foreground/60">{subText}</p>}
       </div>
-   );
+    </div>
+  );
 }
